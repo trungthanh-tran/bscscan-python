@@ -7,7 +7,7 @@ class Logs:
     @staticmethod
     def get_logs(
         from_block: int,
-        to_block: int,
+        to_block: str,
         address: str,
         topic_0: str = "",
         topic_1: str = "",
@@ -81,46 +81,77 @@ class Logs:
                 }
             ]
         """
-        return (
+        query_string = (
             f"{fields.MODULE}"
             f"{modules.LOGS}"
             f"{fields.ACTION}"
             f"{actions.GET_LOGS}"
-            f"{fields.FROM_BLOCK}"
-            f"{from_block}"
-            f"{fields.TO_BLOCK}"
-            f"{to_block}"
             f"{fields.ADDRESS}"
             f"{address}"
-            # topic 0
-            f"{fields.TOPIC_0}"
-            f"{topic_0}"
-            #
-            # Everything below is optional. If not provided by user, then
-            # they remain empty and do not affect the tail of the url.
-            #
-            # topic 0_x operators
-            f"{fields.TOPIC_0_1_OPR*bool(topic_0_1_opr)}"
-            f"{topic_0_1_opr}"
-            f"{fields.TOPIC_0_2_OPR*bool(topic_0_2_opr)}"
-            f"{topic_0_2_opr}"
-            f"{fields.TOPIC_0_3_OPR*bool(topic_0_3_opr)}"
-            f"{topic_0_3_opr}"
-            # topic 1
-            f"{fields.TOPIC_1*bool(topic_1)}"
-            f"{topic_1}"
-            # topic 1_x operators
-            f"{fields.TOPIC_1_2_OPR*bool(topic_1_2_opr)}"
-            f"{topic_1_2_opr}"
-            f"{fields.TOPIC_1_3_OPR*bool(topic_1_3_opr)}"
-            f"{topic_1_3_opr}"
-            # topic 2
-            f"{fields.TOPIC_2*bool(topic_2)}"
-            f"{topic_2}"
-            # topic 2_x operators
-            f"{fields.TOPIC_2_3_OPR*bool(topic_2_3_opr)}"
-            f"{topic_2_3_opr}"
-            # topic 3
-            f"{fields.TOPIC_3*bool(topic_3)}"
-            f"{topic_3}"
         )
+        if isinstance(from_block, int) or from_block == "latest":
+            query_string += (
+                f"{fields.FROM_BLOCK}"
+                f"{from_block}"
+                )
+        else:
+            raise RuntimeError("Invalid from_block. It must be integer or latest")
+        if isinstance(to_block, int) or to_block == "latest":
+            query_string += (
+                f"{fields.TO_BLOCK}"
+                f"{to_block}"
+                )
+        else:
+            raise RuntimeError("Invalid to_block. It must be integer or latest")
+        
+        if topic_0 is not None:
+            query_string += (
+                f"{fields.TOPIC_0}"
+                f"{topic_0}"
+            )
+        if topic_1 is not None:
+            query_string += (
+                f"{fields.TOPIC_1}"
+                f"{topic_1}"
+            )
+        if topic_2 is not None:
+            query_string += (
+                f"{fields.TOPIC_2}"
+                f"{topic_2}"
+            )
+        if topic_3 is not None:
+            query_string += (
+                f"{fields.TOPIC_3}"
+                f"{topic_3}"
+            )
+        if topic_0_1_opr == 'and' or topic_0_1_opr == 'or':
+            query_string+= (
+                f"{fields.TOPIC_0_1_OPR}"
+                f"{topic_0_1_opr}"
+                )
+        if topic_0_2_opr == 'and' or topic_0_2_opr == 'or':
+            query_string+= (
+                f"{fields.TOPIC_0_2_OPR}"
+                f"{topic_0_2_opr}"
+                )
+        if topic_0_3_opr == 'and' or topic_0_3_opr == 'or':
+            query_string+= (
+                f"{fields.TOPIC_0_3_OPR}"
+                f"{topic_0_3_opr}"
+                )
+        if topic_1_2_opr == 'and' or topic_1_2_opr == 'or':
+            query_string+= (
+                f"{fields.TOPIC_1_2_OPR}"
+                f"{topic_1_2_opr}"
+                )
+        if topic_1_3_opr == 'and' or topic_1_3_opr == 'or':
+            query_string+= (
+                f"{fields.TOPIC_1_3_OPR}"
+                f"{topic_1_3_opr}"
+                )
+        if topic_2_3_opr == 'and' or topic_2_3_opr == 'or':
+            query_string+= (
+                f"{fields.TOPIC_2_3_OPR}"
+                f"{topic_2_3_opr}"
+                )
+        return query_string

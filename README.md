@@ -172,13 +172,7 @@ Before proceeding, you should register an account on [BscScan.com](https://bscsc
 Install from source:
 
 ``` bash
-pip install git+https://github.com/pcko1/bscscan-python.git@stable
-```
-
-Alternatively, install from [PyPI](https://pypi.org/project/bscscan-python/):
-
-```bash
-pip install bscscan-python
+pip install git+https://github.com/trungthanh-tran/bscscan-python.git
 ```
 
 ## Unit tests
