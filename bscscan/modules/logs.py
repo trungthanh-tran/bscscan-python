@@ -104,22 +104,22 @@ class Logs:
         else:
             raise RuntimeError("Invalid to_block. It must be integer or latest")
         
-        if topic_0 is not None:
+        if topic_0:
             query_string += (
                 f"{fields.TOPIC_0}"
                 f"{topic_0}"
             )
-        if topic_1 is not None:
+        if topic_1:
             query_string += (
                 f"{fields.TOPIC_1}"
                 f"{topic_1}"
             )
-        if topic_2 is not None:
+        if topic_2:
             query_string += (
                 f"{fields.TOPIC_2}"
                 f"{topic_2}"
             )
-        if topic_3 is not None:
+        if topic_3:
             query_string += (
                 f"{fields.TOPIC_3}"
                 f"{topic_3}"
